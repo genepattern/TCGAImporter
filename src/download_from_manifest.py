@@ -54,3 +54,5 @@ for d, f in zip(dfest['id'], dfest['filename']):
     # "decompress" and remove gz files
     uncompress_gzip(os.path.join(destination, f), new_name=os.path.join(destination, name_id_dict[f]))
 print('All files were moved and "decompressed" successfully.')
+
+make_sample_information_file(name='temp.txt', manifest_df=dfest, name_id_dict=name_id_dict)
