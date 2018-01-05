@@ -53,24 +53,28 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
         # TODO: add a filter here for the types of samples we want. I am using all "0x"and "1x" samples...
         # but presumably we only want "01" and "11" but then we should remove those from the directory (moved them to "unused")
 
-        #     if name_id_dict[f][13:15] == '01':
-        #         # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
-        #         file.write('\t'.join([name_id_dict[f]+'.htseq','Tumor', name_id_dict[f]]))
-        #         file.write('\n')
-        #         print(name_id_dict[f])
-        #     if name_id_dict[f][13:15] == '11':
-        #         file.write('\t'.join([name_id_dict[f]+'.htseq','Normal', name_id_dict[f]]))
-        #         file.write('\n')
-        #         print(name_id_dict[f])
-        if name_id_dict[f][13] == '0':
-            # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
-            file.write('\t'.join([name_id_dict[f] + '.htseq', 'Tumor', name_id_dict[f]]))
-            file.write('\n')
-            print(name_id_dict[f])
-        if name_id_dict[f][13] == '1':
-            file.write('\t'.join([name_id_dict[f] + '.htseq', 'Normal', name_id_dict[f]]))
-            file.write('\n')
-            print(name_id_dict[f])
+            if name_id_dict[f][13:15] == '01':
+                # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
+                file.write('\t'.join([name_id_dict[f]+'.htseq','Tumor', name_id_dict[f]]))
+                file.write('\n')
+                # print(name_id_dict[f])
+            elif name_id_dict[f][13:15] == '11':
+                file.write('\t'.join([name_id_dict[f]+'.htseq','Normal', name_id_dict[f]]))
+                file.write('\n')
+                # print(name_id_dict[f])
+            else:
+                # Move from raw_count_files to unused_files
+                pwd = execute('pwd', doitlive=False)
+                destination = os.path.join(pwd, 'unused_files')
+                if os.path.isdir(destination):
+                    shutil.rmtree(destination)
+                os.mkdir(destination)
+                # Move the downloaded files to a folder
+                source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
+                shutil.move(source, destination)
+                # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
+                print(f)
+                print(name_id_dict[f]+'.htseq.counts')
     file.close()
 
     return

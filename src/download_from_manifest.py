@@ -7,7 +7,11 @@ parser.add_argument("-m", "--manifest", type=str,
                     help="The relative path of the manifest used to download the data")
 parser.add_argument("-n", "--metadata", type=str,
                     help="The relative path of the metadata file")
+parser.add_argument("-b", "--basename", type=str,
+                    help="The basename to use for output files", default='TCGA_dataset')
 parser.add_argument("-v", "--verbose", action="store_true",
+                    help="increase output verbosity")
+parser.add_argument("-d", "--debug", action="store_true",
                     help="increase output verbosity")
 args = parser.parse_args()
 if args.verbose:
@@ -21,9 +25,12 @@ manifest = args.manifest
 metadata_file = args.metadata
 
 command = "./gdc-client download -m "+manifest
-print("About to execute the command:", command)
-what = execute(command)
-print('All files in manifest were downloaded, probably. To be sure, check the output of the gdc-client.')
+if args.debug:
+    print("Debug mode on. Files assumed to be already present")
+else:
+    print("About to execute the command:", command)
+    what = execute(command)
+    print('All files in manifest were downloaded, probably. To be sure, check the output of the gdc-client.')
 
 dfest = pd.read_table(manifest)
 
@@ -44,15 +51,18 @@ for i in range(len(meta_data)):
 
 # pwd = os.path.dirname(__file__)
 pwd = execute('pwd', doitlive=True)
-destination = os.path.join(pwd, 'raw_files')
-if not os.path.isdir(destination):
-    os.mkdir(destination)
+destination = os.path.join(pwd, 'raw_count_files')
+
+if os.path.isdir(destination):
+    shutil.rmtree(destination)
+os.mkdir(destination)
 
 for d, f in zip(dfest['id'], dfest['filename']):
     shutil.copy(os.path.join(d, f), destination)  # Move the downloaded files to a folder
-    shutil.rmtree(d)  # Remove those files/folders from current directory
+    if not args.debug:
+        shutil.rmtree(d)  # Remove those files/folders from current directory
     # "decompress" and remove gz files
-    uncompress_gzip(os.path.join(destination, f), new_name=os.path.join(destination, name_id_dict[f]))
+    uncompress_gzip(os.path.join(destination, f), new_name=os.path.join(destination, name_id_dict[f]+'.htseq.counts'))
 print('All files were moved and "decompressed" successfully.')
 
-make_sample_information_file(name='temp.txt', manifest_df=dfest, name_id_dict=name_id_dict)
+make_sample_information_file(name=args.basename+'_sampleinfo.txt', manifest_df=dfest, name_id_dict=name_id_dict)
