@@ -17,6 +17,8 @@ args = parser.parse_args()
 if args.verbose:
     print("We like being verbose!")
 
+print("Using arguments:")
+print(args)
 
 # Download from manifest
 # manifest = "gdc_manifest_20171221_005438.txt"
@@ -24,7 +26,10 @@ manifest = args.manifest
 # metadata_file = "metadata.cart.2017-12-21T21_41_22.870798.json"
 metadata_file = args.metadata
 
-command = "./gdc-client download -m "+manifest
+# pwd = os.path.dirname(__file__)
+pwd = execute('pwd', doitlive=True)
+
+command = pwd+"/gdc-client download -m "+manifest
 if args.debug:
     print("Debug mode on. Files assumed to be already present")
 else:
@@ -49,8 +54,6 @@ for i in range(len(meta_data)):
     unique_id = meta_data[i]['cases'][0]['samples'][0]['portions'][0]['analytes'][0]['aliquots'][0]['submitter_id']
     name_id_dict[file_name] = unique_id
 
-# pwd = os.path.dirname(__file__)
-pwd = execute('pwd', doitlive=True)
 destination = os.path.join(pwd, 'raw_count_files')
 
 if os.path.isdir(destination):
