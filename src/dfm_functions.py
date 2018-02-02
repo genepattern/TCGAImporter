@@ -79,6 +79,76 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
 
     return
 
+def make_gct(file_list, translate_bool, file_name):
+    df_gct = None
+
+    #get sample names
+    sample_list = []
+    sample_list.append("GID")
+    sample_list.append("NAME")
+
+    #add data from every file in list to dataframe if exists
+    for file in file_list:
+        if os.path.exists(file):
+            #get sample name
+            split = file.split('/')
+            split = split[len(split) - 1].split('.')[0][:19]
+            sample_list.append(split)
+
+            #read in file
+            df_curr = pd.read_table(file, header=None)
+            #if first file, get gene translations and ensembl ids
+            if df_gct is None:
+                df_gct = df_curr.copy()
+                df_curr.drop(df_curr.columns[1,], axis=1, inplace=True)
+                df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
+
+                print(df_curr[df_curr.columns[0]])
+                if translate_bool:
+                    df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
+                df_gct = pd.concat([df_curr,df_gct], axis=1)
+
+            #otherwise just concatenate
+            else:
+                #get counts column and concatenate
+                df_curr.drop(df_curr.columns[0,], axis=1, inplace=True)
+                df_gct = pd.concat([df_gct, df_curr], axis=1)
+
+
+    #remove last 5 rows, which are not genes
+    df_gct = df_gct[:-5]
+
+    #start writing gct file
+    f = open(str(file_name+".gct"), "w")
+    #headers
+    f.write("#1.2")
+    for i in range(len(sample_list)):
+        f.write('\t')
+    f.write('\n')
+    f.write(str(len(df_gct)) + "\t" + str((len(sample_list) -2)))
+    for i in range(len(sample_list) - 2):
+        f.write('\t')
+    f.write('\n')
+
+    #sample names
+    for i in range(len(sample_list)):
+        f.write(sample_list[i])
+        print(sample_list[i])
+        f.write('\t')
+    f.write('\n')
+
+    #dataframe
+    df_gct.to_csv(f, sep='\t', index=False, header=False)
+    f.close()
+
+import mygene
+mg = mygene.MyGeneInfo()
+def translate(ESNG):
+    try:
+        ID = mg.getgene(ESNG)['symbol']
+    except TypeError:
+        ID = ESNG
+    return ID
 
 class_dict = {
     '01': 'Tumor',

@@ -13,6 +13,12 @@ parser.add_argument("-v", "--verbose", action="store_true",
                     help="increase output verbosity")
 parser.add_argument("-d", "--debug", action="store_true",
                     help="increase output verbosity")
+parser.add_argument("-g", "--gct", type=str,
+                    help="create a corresponding gct file")
+parser.add_argument("-f", "--filename", type=str,
+                    help="filename of the gct file")
+parser.add_argument("-t", "--translate", type=str,
+                    help="translate ensembl id to hugo gene id")
 args = parser.parse_args()
 if args.verbose:
     print("We like being verbose!")
@@ -60,12 +66,18 @@ if os.path.isdir(destination):
     shutil.rmtree(destination)
 os.mkdir(destination)
 
+file_list = []
+
 for d, f in zip(dfest['id'], dfest['filename']):
     shutil.copy(os.path.join(d, f), destination)  # Move the downloaded files to a folder
     if not args.debug:
         shutil.rmtree(d)  # Remove those files/folders from current directory
     # "decompress" and remove gz files
     uncompress_gzip(os.path.join(destination, f), new_name=os.path.join(destination, name_id_dict[f]+'.htseq.counts'))
+    file_list.append(os.path.join(destination, name_id_dict[f]+'.htseq.counts'))
 print('All files were moved and "decompressed" successfully.')
 
 make_sample_information_file(name=args.basename+'_sampleinfo.txt', manifest_df=dfest, name_id_dict=name_id_dict)
+
+if (args.gct == 'True'):
+    make_gct(file_list, args.translate=='True', args.filename)
