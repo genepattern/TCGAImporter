@@ -7,7 +7,7 @@ parser.add_argument("-m", "--manifest", type=str,
                     help="The relative path of the manifest used to download the data")
 parser.add_argument("-n", "--metadata", type=str,
                     help="The relative path of the metadata file")
-parser.add_argument("-b", "--basename", type=str,
+parser.add_argument("-o", "--output_file_name", type=str,
                     help="The basename to use for output files", default='TCGA_dataset')
 parser.add_argument("-v", "--verbose", action="store_true",
                     help="increase output verbosity")
@@ -15,8 +15,8 @@ parser.add_argument("-d", "--debug", action="store_true",
                     help="increase output verbosity")
 parser.add_argument("-g", "--gct", type=str,
                     help="create a corresponding gct file")
-parser.add_argument("-f", "--filename", type=str,
-                    help="filename of the gct file")
+# parser.add_argument("-f", "--filename", type=str,
+#                     help="filename of the gct file")
 parser.add_argument("-t", "--translate", type=str,
                     help="translate ensembl id to hugo gene id")
 args = parser.parse_args()
@@ -85,12 +85,12 @@ for d, f in zip(dfest['id'], dfest['filename']):
 print('All files were moved and "decompressed" successfully.')
 
 print('Now creating the Sample Information file.')
-make_sample_information_file(name=args.basename+'_sampleinfo.txt', manifest_df=dfest, name_id_dict=name_id_dict)
+make_sample_information_file(name=args.output_file_name+'_sampleinfo.txt', manifest_df=dfest, name_id_dict=name_id_dict)
 print('Sample Information file created successfully!')
 
 if (args.gct == 'True'):
     print('Now creating the GCT file.')
-    make_gct(file_list, args.translate == 'True', args.filename)
+    make_gct(file_list, args.translate == 'True', args.output_file_name)
     print('GCT file created successfully!')
 
     # This could be its own parameter, but for now only output raw files if GCT is not created
