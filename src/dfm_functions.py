@@ -6,6 +6,7 @@ import shutil
 import gzip
 import json
 import sys
+import mygene
 
 
 def uncompress_gzip(file_name, new_name=None, delete=True):
@@ -55,14 +56,16 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
 
             if name_id_dict[f][13:15] == '01':
                 # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
-                file.write('\t'.join([name_id_dict[f]+'.htseq','Tumor', name_id_dict[f]]))
+                file.write('\t'.join([name_id_dict[f]+'.htseq', 'Tumor', name_id_dict[f]]))
                 file.write('\n')
                 # print(name_id_dict[f])
             elif name_id_dict[f][13:15] == '11':
-                file.write('\t'.join([name_id_dict[f]+'.htseq','Normal', name_id_dict[f]]))
+                file.write('\t'.join([name_id_dict[f]+'.htseq', 'Normal', name_id_dict[f]]))
                 file.write('\n')
                 # print(name_id_dict[f])
             else:
+                print('Ignoring file named "{}" because sample is neither Primary Tumor nor Matched Normal tissue '
+                      '(i.e., sample id = {}).'.format(name_id_dict[f], name_id_dict[f][13:15]))
                 # Move from raw_count_files to unused_files
                 pwd = execute('pwd', doitlive=False)
                 destination = os.path.join(pwd, 'unused_files')
@@ -73,76 +76,85 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
                 shutil.move(source, destination)
                 # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
-                print(f)
-                print(name_id_dict[f]+'.htseq.counts')
+                # print(f)
+                # print(name_id_dict[f]+'.htseq.counts')
     file.close()
 
     return
 
+
 def make_gct(file_list, translate_bool, file_name):
+    """
+    This function makes a GCT file by concatenating all the files present in file_list
+    """
     df_gct = None
 
-    #get sample names
+    # get sample names
     sample_list = []
-    sample_list.append("GID")
-    sample_list.append("NAME")
+    # sample_list.append("GID")  # 2018-02-07 Changing this to Name
+    sample_list.append("Name")
+    # sample_list.append("NAME")  # 2018-02-07 Changing this to Description to conform to other GenePattern GCT files
+    sample_list.append("Description")
 
-    #add data from every file in list to dataframe if exists
+    # add data from every file in list to dataframe if exists
     for file in file_list:
         if os.path.exists(file):
-            #get sample name
+            # get sample name
             split = file.split('/')
             split = split[len(split) - 1].split('.')[0][:19]
             sample_list.append(split)
 
-            #read in file
+            # read in file
             df_curr = pd.read_table(file, header=None)
-            #if first file, get gene translations and ensembl ids
+            # if first file, get gene translations and ensembl ids
             if df_gct is None:
                 df_gct = df_curr.copy()
-                df_curr.drop(df_curr.columns[1,], axis=1, inplace=True)
+                df_curr.drop(df_curr.columns[1, ], axis=1, inplace=True)
                 df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
 
-                print(df_curr[df_curr.columns[0]])
+                # print(df_curr[df_curr.columns[0]])
                 if translate_bool:
                     df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
-                df_gct = pd.concat([df_curr,df_gct], axis=1)
+                df_gct = pd.concat([df_curr, df_gct], axis=1)
 
-            #otherwise just concatenate
+            # otherwise just concatenate
             else:
-                #get counts column and concatenate
+                # get counts column and concatenate
                 df_curr.drop(df_curr.columns[0,], axis=1, inplace=True)
                 df_gct = pd.concat([df_gct, df_curr], axis=1)
 
-
-    #remove last 5 rows, which are not genes
+    # remove last 5 rows, which are not genes
     df_gct = df_gct[:-5]
 
-    #start writing gct file
+    # start writing gct file
     f = open(str(file_name+".gct"), "w")
-    #headers
+    # headers
     f.write("#1.2")
-    for i in range(len(sample_list)):
-        f.write('\t')
-    f.write('\n')
-    f.write(str(len(df_gct)) + "\t" + str((len(sample_list) -2)))
-    for i in range(len(sample_list) - 2):
-        f.write('\t')
+    #  # The next two lines add enough tabs, removed for now on 2018-02-07
+    # for i in range(len(sample_list)):
+    #     f.write('\t')
     f.write('\n')
 
-    #sample names
+    f.write(str(len(df_gct)) + "\t" + str((len(sample_list) - 2)))
+    #  # The next two lines add enough tabs, removed for now on 2018-02-07
+    # for i in range(len(sample_list) - 2):
+    #     f.write('\t')
+    f.write('\n')
+
+    # sample names
     for i in range(len(sample_list)):
         f.write(sample_list[i])
-        print(sample_list[i])
+        # print(sample_list[i])
         f.write('\t')
     f.write('\n')
 
-    #dataframe
+    # dataframe
     df_gct.to_csv(f, sep='\t', index=False, header=False)
     f.close()
 
-import mygene
 mg = mygene.MyGeneInfo()
+
+
 def translate(ESNG):
     try:
         ID = mg.getgene(ESNG)['symbol']

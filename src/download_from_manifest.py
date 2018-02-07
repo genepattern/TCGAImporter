@@ -35,12 +35,19 @@ metadata_file = args.metadata
 # pwd = os.path.dirname(__file__)
 pwd = execute('pwd', doitlive=True)
 
-command = pwd+"/gdc-client download -m "+manifest
+command = "gdc-client download -m "+manifest  # This is for the docker container call
+
 if args.debug:
     print("Debug mode on. Files assumed to be already present")
 else:
     print("About to execute the command:", command)
-    what = execute(command)
+    try:
+        what = execute(command)
+    except NotADirectoryError:
+        print("Global version of gdc-client not found, trying local version.")
+        command = pwd + "/gdc-client download -m " + manifest  # This is for calling the gcd file locally
+        print("About to execute the command:", command)
+        what = execute(command)
     print('All files in manifest were downloaded, probably. To be sure, check the output of the gdc-client.')
 
 dfest = pd.read_table(manifest)
@@ -77,7 +84,20 @@ for d, f in zip(dfest['id'], dfest['filename']):
     file_list.append(os.path.join(destination, name_id_dict[f]+'.htseq.counts'))
 print('All files were moved and "decompressed" successfully.')
 
+print('Now creating the Sample Information file.')
 make_sample_information_file(name=args.basename+'_sampleinfo.txt', manifest_df=dfest, name_id_dict=name_id_dict)
+print('Sample Information file created successfully!')
 
 if (args.gct == 'True'):
-    make_gct(file_list, args.translate=='True', args.filename)
+    print('Now creating the GCT file.')
+    make_gct(file_list, args.translate == 'True', args.filename)
+    print('GCT file created successfully!')
+
+    # This could be its own parameter, but for now only output raw files if GCT is not created
+    # Now removing folders named: "unused_files" and "raw_count_files"
+    print('Now removing some intermediate files.')
+    for folder in ['raw_count_files', 'unused_files']:
+        destination = os.path.join(pwd, folder)
+        if os.path.isdir(destination):
+            shutil.rmtree(destination)
+    print('All intermediate files were removed. We are done!')
