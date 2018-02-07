@@ -1,10 +1,12 @@
 #download_from_gdc
 #Tue Feb 06 20:14:16 UTC 2018
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:2.1.0
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:2.2.2
 author=Edwin F. Juarez & Andy Zhang;UCSD -- Mesirov Lab
 categories=Data Format Conversion
 commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id>
+# This next line "job.docker.image=" is here for future uses, currently it does nothing, we need to ad a tag, e.g., "job.docker.image=genepattern/download_from_gdc:1.0.0"
+job.docker.image=genepattern/download_from_gdc
 cpuType=any
 description=This module takes in a GDC manifest file, download the files listed on that manifest, and renames them to be human-friendly.
 fileFormat=counts;gct;txt
@@ -42,7 +44,7 @@ p3_TYPE=TEXT
 p3_default_value=TCGA_dataset
 p3_description=The base name to use for output files. E.g., if you type "TCGA_dataset" then the GCT file will be named "TCGA_dataset.gct"
 p3_fileFormat=
-p3_flag=-0
+p3_flag=-o
 p3_name=output_file_name
 p3_numValues=0..1
 p3_optional=on
