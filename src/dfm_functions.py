@@ -103,7 +103,8 @@ def make_gct(file_list, translate_bool, file_name):
         if os.path.exists(file):
             # get sample name
             splited = file.split('/')
-            splited = splited[len(splited) - 1].split('.')[0][:19]
+            # splited = splited[len(splited) - 1].split('.')[0][:19]  # After 15 IDs become redundant
+            splited = splited[len(splited) - 1].split('.')[0][:15]
             sample_list.append(splited)
 
             # read in file
