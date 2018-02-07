@@ -23,7 +23,7 @@ def uncompress_gzip(file_name, new_name=None, delete=True):
         os.remove(file_name)
 
 
-def execute(comando, doitlive=False, input_to_use=None):
+def execute(comando, doitlive=False, input_to_use=None, verbose=True):
     # result = subprocess.run(['ls', '-l'], stdout=subprocess.PIPE)
     comando = comando.split(' ')
 
@@ -31,7 +31,8 @@ def execute(comando, doitlive=False, input_to_use=None):
         popen = subprocess.Popen(comando, stdout=subprocess.PIPE, universal_newlines=True)
         to_return = popen.stdout.read()
         for line in to_return:
-            print(line, end='')
+            if verbose:  # I see no reason to doitlive and have it be not verbose, but to each their own.
+                print(line, end='')
         popen.stdout.close()
         return_code = popen.wait()
         if return_code:
@@ -41,7 +42,8 @@ def execute(comando, doitlive=False, input_to_use=None):
             input_to_use = input_to_use.ecode('utf-8')
         result = subprocess.run(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, input=input_to_use)
         to_return = result.stdout.decode('utf-8')
-        print(to_return)
+        if verbose:
+            print(to_return)
     return to_return.strip('\n')
 
 
@@ -64,10 +66,10 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 file.write('\n')
                 # print(name_id_dict[f])
             else:
-                print('Ignoring file named "{}" because sample is neither Primary Tumor nor Matched Normal tissue '
+                print('\tIgnoring file named "{}" because sample is neither Primary Tumor nor Matched Normal tissue '
                       '(i.e., sample id = {}).'.format(name_id_dict[f], name_id_dict[f][13:15]))
                 # Move from raw_count_files to unused_files
-                pwd = execute('pwd', doitlive=False)
+                pwd = execute('pwd', doitlive=False, verbose=False)
                 destination = os.path.join(pwd, 'unused_files')
                 if os.path.isdir(destination):
                     shutil.rmtree(destination)
@@ -100,9 +102,9 @@ def make_gct(file_list, translate_bool, file_name):
     for file in file_list:
         if os.path.exists(file):
             # get sample name
-            split = file.split('/')
-            split = split[len(split) - 1].split('.')[0][:19]
-            sample_list.append(split)
+            splited = file.split('/')
+            splited = splited[len(splited) - 1].split('.')[0][:19]
+            sample_list.append(splited)
 
             # read in file
             df_curr = pd.read_table(file, header=None)
@@ -142,10 +144,12 @@ def make_gct(file_list, translate_bool, file_name):
     f.write('\n')
 
     # sample names
-    for i in range(len(sample_list)):
-        f.write(sample_list[i])
-        # print(sample_list[i])
-        f.write('\t')
+    f.write('\t'.join(sample_list))
+    # # The following lines do the same but add one extra tab
+    # for i in range(len(sample_list)):
+    #     f.write(sample_list[i])
+    #     print(sample_list[i])
+    #     f.write('\t')
     f.write('\n')
 
     # dataframe
