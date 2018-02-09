@@ -15,6 +15,8 @@ parser.add_argument("-d", "--debug", action="store_true",
                     help="increase output verbosity")
 parser.add_argument("-g", "--gct", type=str,
                     help="create a corresponding gct file")
+parser.add_argument("-c", "--cls", type=str,
+                    help="create a corresponding cls file")
 # parser.add_argument("-f", "--filename", type=str,
 #                     help="filename of the gct file")
 parser.add_argument("-t", "--translate", type=str,
@@ -43,7 +45,7 @@ else:
     print("About to execute the command:", command)
     try:
         what = execute(command)
-    except NotADirectoryError:
+    except FileNotFoundError or NotADirectoryError:
         print("Global version of gdc-client not found, trying local version.")
         command = pwd + "/gdc-client download -m " + manifest  # This is for calling the gcd file locally
         print("About to execute the command:", command)
@@ -90,7 +92,7 @@ print('Sample Information file created successfully!')
 
 if (args.gct == 'True'):
     print('Now creating the GCT file.')
-    make_gct(file_list, args.translate == 'True', args.output_file_name)
+    make_gct(file_list, args.translate == 'True', args.output_file_name, args.cls == 'True')
     print('GCT file created successfully!')
 
     # This could be its own parameter, but for now only output raw files if GCT is not created
