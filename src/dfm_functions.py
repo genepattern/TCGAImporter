@@ -85,7 +85,7 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
     return
 
 
-def make_gct(file_list, translate_bool, file_name):
+def make_gct(file_list, translate_bool, file_name, cls_bool):
     """
     This function makes a GCT file by concatenating all the files present in file_list
     """
@@ -98,6 +98,10 @@ def make_gct(file_list, translate_bool, file_name):
     # sample_list.append("NAME")  # 2018-02-07 Changing this to Description to conform to other GenePattern GCT files
     sample_list.append("Description")
 
+    #CLS file generation
+    #01 - 09 tumor, 10 - 19 normal, 20 - 29 control
+    cls_list = []
+
     # add data from every file in list to dataframe if exists
     for file in file_list:
         if os.path.exists(file):
@@ -106,6 +110,8 @@ def make_gct(file_list, translate_bool, file_name):
             # splited = splited[len(splited) - 1].split('.')[0][:19]  # After 15 IDs become redundant
             splited = splited[len(splited) - 1].split('.')[0][:15]
             sample_list.append(splited)
+
+            cls_list.append(splited[-2:])
 
             # read in file
             df_curr = pd.read_table(file, header=None)
@@ -156,6 +162,33 @@ def make_gct(file_list, translate_bool, file_name):
     # dataframe
     df_gct.to_csv(f, sep='\t', index=False, header=False)
     f.close()
+
+    if cls_bool:
+        # start writing cls file
+        f = open(str(file_name+".cls"), "w")
+        types = set(cls_list)
+        # headers
+        f.write(str(len(cls_list)))
+        f.write(' ')
+        f.write(str(len(types)))
+        f.write(' 1\n#')
+
+        type_dict = {}
+        type_count = 0
+        for t in types:
+            type_dict[t] = type_count
+            type_count += 1
+            f.write(' ')
+            f.write(t)
+
+        f.write('\n')
+
+        for val in cls_list[:-1]:
+            f.write(str(type_dict[val]))
+            f.write(' ')
+        f.write(str(type_dict[cls_list[-1]]))
+
+        f.close()
 
 mg = mygene.MyGeneInfo()
 
