@@ -1,10 +1,10 @@
 #download_from_gdc
 #Tue Feb 06 20:14:16 UTC 2018
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:2.2.5
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:2.2.6
 author=Edwin F. Juarez & Andy Zhang;UCSD -- Mesirov Lab
 categories=Data Format Conversion
-commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id>
+commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id> -c <cls>
 # This next line "job.docker.image=" is here for future uses, currently it does nothing, we need to ad a tag, e.g., "job.docker.image=genepattern/download_from_gdc:1.0.0"
 job.docker.image=genepattern/download_from_gdc
 cpuType=any
@@ -78,6 +78,17 @@ p5_prefix=
 p5_prefix_when_specified=
 p5_type=java.lang.String
 p5_value=False\=False;True\=True
+p6_default_value=True
+p6_description=Whether or not to translate create a cls file separating Normal and Tumor classes based on TCGA Sample ID.
+p6_fileFormat=
+p6_flag=-c
+p6_name=cls
+p6_numValues=0..1
+p6_optional=
+p6_prefix=
+p6_prefix_when_specified=
+p6_type=java.lang.String
+p6_value=False\=False;True\=True
 privacy=public
 quality=development
 taskDoc=
