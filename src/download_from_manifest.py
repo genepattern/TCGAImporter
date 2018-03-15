@@ -44,8 +44,8 @@ if args.debug:
 else:
     print("About to execute the command:", command)
     try:
-        what = execute(command)
-    except FileNotFoundError or NotADirectoryError:
+        what = execute(command, doitlive=False)
+    except NotADirectoryError:  # except FileNotFoundError:
         print("Global version of gdc-client not found, trying local version.")
         command = pwd + "/gdc-client download -m " + manifest  # This is for calling the gcd file locally
         print("About to execute the command:", command)

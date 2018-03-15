@@ -29,6 +29,7 @@ def execute(comando, doitlive=False, input_to_use=None, verbose=True):
 
     if doitlive:
         popen = subprocess.Popen(comando, stdout=subprocess.PIPE, universal_newlines=True)
+
         to_return = popen.stdout.read()
         for line in to_return:
             if verbose:  # I see no reason to doitlive and have it be not verbose, but to each their own.
@@ -41,6 +42,7 @@ def execute(comando, doitlive=False, input_to_use=None, verbose=True):
         if input_to_use is not None:
             input_to_use = input_to_use.ecode('utf-8')
         result = subprocess.run(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, input=input_to_use)
+
         to_return = result.stdout.decode('utf-8')
         if verbose:
             print(to_return)
@@ -102,35 +104,46 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
     #01 - 09 tumor, 10 - 19 normal, 20 - 29 control
     cls_list = []
 
+    removed_for_repetition = 0
+
     # add data from every file in list to dataframe if exists
     for file in file_list:
         if os.path.exists(file):
+
             # get sample name
             splited = file.split('/')
-            # splited = splited[len(splited) - 1].split('.')[0][:19]  # After 15 IDs become redundant
+            # # splited = splited[len(splited) - 1].split('.')[0][:19]  # After 15 IDs become redundant
             splited = splited[len(splited) - 1].split('.')[0][:15]
-            sample_list.append(splited)
 
-            cls_list.append(splited[-2:])
+            if splited not in sample_list:
 
-            # read in file
-            df_curr = pd.read_table(file, header=None)
-            # if first file, get gene translations and ensembl ids
-            if df_gct is None:
-                df_gct = df_curr.copy()
-                df_curr.drop(df_curr.columns[1, ], axis=1, inplace=True)
-                df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
+                sample_list.append(splited)
+                cls_list.append(splited[-2:])
 
-                # print(df_curr[df_curr.columns[0]])
-                if translate_bool:
-                    df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
-                df_gct = pd.concat([df_curr, df_gct], axis=1)
+                # read in file
+                df_curr = pd.read_table(file, header=None)
 
-            # otherwise just concatenate
+                # if first file, get gene translations and ensembl ids
+                if df_gct is None:
+                    df_gct = df_curr.copy()
+                    df_curr.drop(df_curr.columns[1, ], axis=1, inplace=True)
+                    df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
+
+                    # print(df_curr[df_curr.columns[0]])
+                    if translate_bool:
+                        df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
+                    df_gct = pd.concat([df_curr, df_gct], axis=1)
+
+                # otherwise just concatenate
+                else:
+                    # get counts column and concatenate
+                    df_curr.drop(df_curr.columns[0,], axis=1, inplace=True)
+                    df_gct = pd.concat([df_gct, df_curr], axis=1)
             else:
-                # get counts column and concatenate
-                df_curr.drop(df_curr.columns[0,], axis=1, inplace=True)
-                df_gct = pd.concat([df_gct, df_curr], axis=1)
+                removed_for_repetition += 1
+
+    print("{} samples were not included due to repetition, only one sample per unique ID is being used.".format(
+        removed_for_repetition))
 
     # remove last 5 rows, which are not genes
     df_gct = df_gct[:-5]
@@ -164,6 +177,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
     f.close()
 
     if cls_bool:
+        print("cls_list= ", cls_list)
         # start writing cls file
         f = open(str(file_name+".cls"), "w")
         types = set(cls_list)
@@ -180,6 +194,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
             type_count += 1
             f.write(' ')
             f.write(t)
+            print(t)
 
         f.write('\n')
 
