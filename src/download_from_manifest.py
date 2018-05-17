@@ -1,3 +1,5 @@
+from timeit import default_timer as timer
+beginning_of_time = timer()
 from dfm_functions import *
 import argparse
 
@@ -66,8 +68,13 @@ meta_data = json.load(open(metadata_file))
 name_id_dict = {}
 for i in range(len(meta_data)):
     file_name = meta_data[i]['file_name']
-    unique_id = meta_data[i]['cases'][0]['samples'][0]['portions'][0]['analytes'][0]['aliquots'][0]['submitter_id']
-    name_id_dict[file_name] = unique_id
+    # unique_id = meta_data[i]['cases'][0]['samples'][0]['portions'][0]['analytes'][0]['aliquots'][0]['submitter_id']
+    # name_id_dict[file_name] = unique_id
+
+    # Reading in the new metadata structure -- 2018-05-17
+    unique_id = meta_data[i]['associated_entities'][0]['entity_submitter_id']
+    name_id_dict[file_name] = unique_id[:15]
+
 
 destination = os.path.join(pwd, 'raw_count_files')
 
@@ -103,3 +110,7 @@ if (args.gct == 'True'):
         if os.path.isdir(destination):
             shutil.rmtree(destination)
     print('All intermediate files were removed. We are done!')
+
+end_of_time = timer()
+spanned = end_of_time - beginning_of_time
+print(f"We are done! Wall time elapsed: {spanned} seconds")
