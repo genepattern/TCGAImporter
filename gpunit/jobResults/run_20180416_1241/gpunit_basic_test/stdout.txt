@@ -1,19 +1,0 @@
-Using arguments:
-Namespace(cls='True', debug=False, gct='True', manifest='/opt/gpbeta/gp_home/users/edjuaro/uploads/tmp/run6941340649499534047.tmp/minifest.txt', metadata='/opt/gpbeta/gp_home/users/edjuaro/uploads/tmp/run5324787251154200625.tmp/metadata.json', output_file_name='gp_unit_test_dataset', translate='False', verbose=False)
-/opt/gpbeta/gp_home/jobResults/21498
-About to execute the command: gdc-client download -m /opt/gpbeta/gp_home/users/edjuaro/uploads/tmp/run6941340649499534047.tmp/minifest.txt
-  0% [                                            ] ETA:  --:--:--   0.00  B/s 100% [#############################################] ETA:  0:00:00   1.05  B/s 100% [#############################################] Time: 0:00:00   1.05  B/s 
-[32mSuccessfully downloaded[0m: 4
-
-All files in manifest were downloaded, probably. To be sure, check the output of the gdc-client.
-All files were moved and "decompressed" successfully.
-Now creating the Sample Information file.
-	Ignoring file named "TCGA-E2-A15E-06A-11R-A12D-07" because sample is neither Primary Tumor nor Matched Normal tissue (i.e., sample id = 06).
-Sample Information file created successfully!
-Now creating the GCT file.
-0 samples were not included due to repetition, only one sample per unique ID is being used.
-cls_list=  ['01', '01', '01']
-01
-GCT file created successfully!
-Now removing some intermediate files.
-All intermediate files were removed. We are done!
