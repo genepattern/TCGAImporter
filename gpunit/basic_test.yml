@@ -3,14 +3,13 @@
 # OR using gp-beta-ami:
 # ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="gp-beta-ami.genepattern.org" -Dgp.url="https://gp-beta-ami.genepattern.org" -Dgp.user="edjuaro" -Dgp.password="**PUT_PASSWORD_HERE" -Dgpunit.testfolder=`pwd` gpunit
 
-name: "download_from_gdc - Basic test"
-module: download_from_gdc
+module: TCGAImporter
+name: "TCGAImporter - Basic test"
 params:
        manifest: "input/minifest.txt"
        metadata: "input/metadata.json"
        output_file_name: "gp_unit_test_dataset"
 assertions:
-        diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
         files:
             "gp_unit_test_dataset.gct":
                 diff: "output/basic_test/gp_unit_test_dataset.gct"
