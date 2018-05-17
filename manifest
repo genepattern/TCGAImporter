@@ -1,17 +1,17 @@
-#download_from_gdc
+#TCGAImporter
 #Tue Feb 06 20:14:16 UTC 2018
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:2.3
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:3.0
 author=Edwin F. Juarez & Andy Zhang;UCSD -- Mesirov Lab
 categories=Data Format Conversion
 commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id> -c <cls>
 # This next line "job.docker.image=" is here for future uses, currently it does nothing, we need to ad a tag, e.g., "job.docker.image=genepattern/download_from_gdc:1.0.0"
-job.docker.image=genepattern/download_from_gdc:0.1
+job.docker.image=genepattern/docker-download-from-gdc:0.1
 cpuType=any
-description=This module takes in a GDC manifest file, download the files listed on that manifest, and renames them to be human-friendly.
+description=This module imports data from TCGA by taking in a GDC manifest file, downloading the files listed on that manifest, renaming them to be human-friendly, and compiling them into a GCT file to be computer-friendly.
 fileFormat=counts;gct;txt
 language=Python
-name=download_from_gdc
+name=TCGAImporter
 os=any
 p1_MODE=IN
 p1_TYPE=FILE
@@ -94,4 +94,4 @@ quality=production
 taskDoc=doc.html
 taskType=Data Format Conversion
 userid=edjuaro
-version=Initial version++
+version=New look ;)
