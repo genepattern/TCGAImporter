@@ -1,0 +1,517 @@
+[{
+  "md5sum": "7415a8c33cc53205461a35e5e48330e6", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "8478e2c8-4c90-4e3c-97bc-d201991ad4a6.htseq.counts.gz", 
+  "file_size": 256236, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "4d8d717b-8be6-4f49-bccc-9e2f2e6490b2", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-30T19:01:22.368569-05:00", 
+    "submitter_id": "8478e2c8-4c90-4e3c-97bc-d201991ad4a6_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-29T23:34:46.838402-05:00", 
+        "file_name": "524a7b0f-10a2-46a3-83d2-85c796883710_gdc_realn_rehead.bam", 
+        "md5sum": "8d322fa434d23d6055bed534170364ad", 
+        "data_format": "BAM", 
+        "submitter_id": "524a7b0f-10a2-46a3-83d2-85c796883710", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "a634027a-7303-4db9-a101-c59f2c46f625", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 11345731799, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "8478e2c8-4c90-4e3c-97bc-d201991ad4a6_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "dc6678c7-dd79-4523-a531-8fbfa442b277", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "02311dd2-115e-452f-a5de-b3230a51d7f2", 
+      "case_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "entity_submitter_id": "TCGA-60-2712-01A-01R-0851-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "History of unacceptable prior treatment related to a prior/other malignancy", 
+      "status": "Approved", 
+      "entity_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-11-10T00:00:00", 
+      "annotation_id": "6ef5c71f-ea3c-55dc-8550-37d1b67606d7", 
+      "notes": "Prior malignancy  L breast cancer treated w/ locoregional radiation (TCGA tumor is in L upper lobe of lung)", 
+      "updated_datetime": "2017-03-09T11:51:16.721011-06:00", 
+      "submitter_id": "11958", 
+      "state": "submitted", 
+      "case_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "entity_submitter_id": "TCGA-60-2712"
+    }, 
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2010-10-11T00:00:00", 
+      "annotation_id": "1240dcbc-c58b-56c5-83a1-2bb1bc9e4b37", 
+      "notes": "[intgen.org]: Subject has Hx of prior malignancy", 
+      "updated_datetime": "2017-03-09T13:44:03.087639-06:00", 
+      "submitter_id": "743", 
+      "state": "submitted", 
+      "case_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "entity_submitter_id": "TCGA-60-2712"
+    }, 
+    {
+      "category": "General", 
+      "status": "Approved", 
+      "entity_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "classification": "Observation", 
+      "entity_type": "case", 
+      "created_datetime": "2013-09-05T00:00:00", 
+      "annotation_id": "db4acac7-abc7-5a9b-87c8-5134f318147a", 
+      "notes": "This subject was duplicated by TCGA-O2-A5IC; TCGA-O2-A5IC was redacted and this one retained", 
+      "updated_datetime": "2017-03-09T12:18:26.111657-06:00", 
+      "submitter_id": "17250", 
+      "state": "submitted", 
+      "case_id": "f355cd59-eaa9-46c7-ab07-b90a7afc875c", 
+      "entity_submitter_id": "TCGA-60-2712"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+},{
+  "md5sum": "8aa3fbe4800251b4901a8d59665a8674", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "0263a550-8b66-4884-b014-99501112741d.htseq.counts.gz", 
+  "file_size": 253078, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "ce4aee93-dbd8-420e-b426-49636d481e94", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-30T18:42:52.990959-05:00", 
+    "submitter_id": "0263a550-8b66-4884-b014-99501112741d_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-29T14:35:57.063819-05:00", 
+        "file_name": "f923c93f-4152-4302-9f2d-e845d99f33f1_gdc_realn_rehead.bam", 
+        "md5sum": "651b4a131da56b03efd14f96e5566ec3", 
+        "data_format": "BAM", 
+        "submitter_id": "f923c93f-4152-4302-9f2d-e845d99f33f1", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "635ee6c8-ce8b-4bcb-9774-40032c2a6b41", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 7393512922, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "0263a550-8b66-4884-b014-99501112741d_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "22473e03-80be-4a64-80d4-135f4aabdca8", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "ff913d7b-73f5-4987-97f9-294463272f82", 
+      "case_id": "bff77f70-973a-4b49-8fd9-4a767f5df2c0", 
+      "entity_submitter_id": "TCGA-60-2696-01A-01R-0851-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "bff77f70-973a-4b49-8fd9-4a767f5df2c0", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2010-10-11T00:00:00", 
+      "annotation_id": "140098ef-3eec-59d0-bde7-ce23997b25ff", 
+      "notes": "[intgen.org]: Subject has Hx of prior malignancy", 
+      "updated_datetime": "2017-03-09T13:43:46.882023-06:00", 
+      "submitter_id": "740", 
+      "state": "submitted", 
+      "case_id": "bff77f70-973a-4b49-8fd9-4a767f5df2c0", 
+      "entity_submitter_id": "TCGA-60-2696"
+    }, 
+    {
+      "category": "History of unacceptable prior treatment related to a prior/other malignancy", 
+      "status": "Approved", 
+      "entity_id": "bff77f70-973a-4b49-8fd9-4a767f5df2c0", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-11-10T00:00:00", 
+      "annotation_id": "0d145a27-52f2-56a4-ba8f-f1cd3d0a0fb7", 
+      "notes": "Prior malignancy  breast cancer treated w/ tamoxifen and radiation and tymus cancer treated w/ cancerrboplatin and Paclitaxel", 
+      "updated_datetime": "2017-03-09T11:51:16.577740-06:00", 
+      "submitter_id": "11956", 
+      "state": "submitted", 
+      "case_id": "bff77f70-973a-4b49-8fd9-4a767f5df2c0", 
+      "entity_submitter_id": "TCGA-60-2696"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+},{
+  "md5sum": "b5f9ec14348f9daecd60325ffa9dcd64", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "ae59d924-06ec-428d-b470-e78ed92c5e36.htseq.counts.gz", 
+  "file_size": 256748, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "4951caec-0c56-4d71-8f87-973bec82a42a", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-30T19:02:26.541529-05:00", 
+    "submitter_id": "ae59d924-06ec-428d-b470-e78ed92c5e36_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-30T10:48:25.638827-05:00", 
+        "file_name": "46743aa3-dac9-43de-ac59-6ccaa5b15b2b_gdc_realn_rehead.bam", 
+        "md5sum": "6196343ad3936a85574b7779f8cdeb6f", 
+        "data_format": "BAM", 
+        "submitter_id": "46743aa3-dac9-43de-ac59-6ccaa5b15b2b", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "39ccf8ef-8914-4c11-ba53-d960188d272b", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 10398731395, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "ae59d924-06ec-428d-b470-e78ed92c5e36_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "4ebda522-ee21-48c7-a399-a7dc8006be65", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "a80c9de4-3d81-4b05-a26a-285e9bbbfafa", 
+      "case_id": "f516991c-5139-4b3e-b605-5a3d90688209", 
+      "entity_submitter_id": "TCGA-21-1077-01A-01R-0692-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "f516991c-5139-4b3e-b605-5a3d90688209", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2010-12-06T00:00:00", 
+      "annotation_id": "0e54c4b6-b4ab-5978-97e9-82ecf9a5ab46", 
+      "notes": "[intgen.org]: Subject has Hx of prior malignancy", 
+      "updated_datetime": "2017-03-09T11:44:24.932817-06:00", 
+      "submitter_id": "1037", 
+      "state": "submitted", 
+      "case_id": "f516991c-5139-4b3e-b605-5a3d90688209", 
+      "entity_submitter_id": "TCGA-21-1077"
+    }, 
+    {
+      "category": "History of unacceptable prior treatment related to a prior/other malignancy", 
+      "status": "Approved", 
+      "entity_id": "f516991c-5139-4b3e-b605-5a3d90688209", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2014-06-16T00:00:00", 
+      "annotation_id": "c53f22b1-677b-5528-a438-39d5390e2c68", 
+      "notes": "unknown treatment history", 
+      "updated_datetime": "2017-03-09T12:32:35.573419-06:00", 
+      "submitter_id": "20734", 
+      "state": "submitted", 
+      "case_id": "f516991c-5139-4b3e-b605-5a3d90688209", 
+      "entity_submitter_id": "TCGA-21-1077"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+},{
+  "md5sum": "128046a08515258be0c4b89db91fa337", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "0d08b39e-cc2e-4262-a8cc-06c644ab5039.htseq.counts.gz", 
+  "file_size": 253003, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "288638e7-363b-4140-adb1-cb958bd54047", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-26T21:23:43.632936-05:00", 
+    "submitter_id": "0d08b39e-cc2e-4262-a8cc-06c644ab5039_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-26T17:11:49.714511-05:00", 
+        "file_name": "0e605e9c-6675-4610-b863-07a343a4280e_gdc_realn_rehead.bam", 
+        "md5sum": "384a2e79ec4a2123667a2ba40520ea23", 
+        "data_format": "BAM", 
+        "submitter_id": "0e605e9c-6675-4610-b863-07a343a4280e", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "f889f58c-8691-4999-9446-4e49fc76dc59", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 8199234626, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "0d08b39e-cc2e-4262-a8cc-06c644ab5039_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "3f2a0273-4b45-4e34-b654-d943ece874b5", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "cf12415f-4487-4e0d-9c9b-2239f7c83599", 
+      "case_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "entity_submitter_id": "TCGA-22-1017-01A-01R-0692-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-10-31T00:00:00", 
+      "annotation_id": "40f39321-ed5a-5c0c-a37e-19dcb47b4841", 
+      "notes": "Prior malignancy and neo-adjuvant treatment per enrollment form.", 
+      "updated_datetime": "2017-03-09T11:50:50.939437-06:00", 
+      "submitter_id": "11715", 
+      "state": "submitted", 
+      "case_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "entity_submitter_id": "TCGA-22-1017"
+    }, 
+    {
+      "category": "Neoadjuvant therapy", 
+      "status": "Approved", 
+      "entity_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-11-10T00:00:00", 
+      "annotation_id": "9b1c3d57-f929-58d2-8764-626e5209897a", 
+      "notes": "Prior malignancy and neo-adjuvant treatment per enrollment form.", 
+      "updated_datetime": "2017-03-09T11:51:13.901916-06:00", 
+      "submitter_id": "11930", 
+      "state": "submitted", 
+      "case_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "entity_submitter_id": "TCGA-22-1017"
+    }, 
+    {
+      "category": "Neoadjuvant therapy", 
+      "status": "Approved", 
+      "entity_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2010-09-02T00:00:00", 
+      "annotation_id": "c9a6ff03-605f-50a6-8ebe-e8acf46a86de", 
+      "notes": "[intgen.org]: Subject Positive for Neo-Adjuvant Therapy", 
+      "updated_datetime": "2017-03-09T13:35:48.525636-06:00", 
+      "submitter_id": "636", 
+      "state": "submitted", 
+      "case_id": "25f64b80-0672-4980-9875-956b1699309b", 
+      "entity_submitter_id": "TCGA-22-1017"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+},{
+  "md5sum": "e63793e449f0ce3627d386661ded1c02", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "c1a0244b-d1df-4457-b21d-14006133525a.htseq.counts.gz", 
+  "file_size": 251720, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "073f8ef4-2435-47f4-93be-4da4fb699fdc", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-26T21:10:22.111763-05:00", 
+    "submitter_id": "c1a0244b-d1df-4457-b21d-14006133525a_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-26T00:00:27.393709-05:00", 
+        "file_name": "0e38f564-13c0-4a45-9e4e-f8955ea1cefe_gdc_realn_rehead.bam", 
+        "md5sum": "31356520e40436c7d8b33289bddd936d", 
+        "data_format": "BAM", 
+        "submitter_id": "0e38f564-13c0-4a45-9e4e-f8955ea1cefe", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "a5f035b5-846c-4eb0-a92c-d70f7819049b", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 8146051633, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "c1a0244b-d1df-4457-b21d-14006133525a_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "520b1b5a-b146-4809-b423-320a51323340", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "320810be-bd11-40c7-9eee-7496f7564599", 
+      "case_id": "0ab8d063-62b4-4d47-82aa-e3351a60029d", 
+      "entity_submitter_id": "TCGA-21-1078-01A-01R-0692-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "0ab8d063-62b4-4d47-82aa-e3351a60029d", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2010-12-06T00:00:00", 
+      "annotation_id": "76fb9ebd-1589-5e66-8372-dc4a17989b27", 
+      "notes": "[intgen.org]: Subject has Hx of prior malignancy", 
+      "updated_datetime": "2017-03-09T11:44:27.569376-06:00", 
+      "submitter_id": "1038", 
+      "state": "submitted", 
+      "case_id": "0ab8d063-62b4-4d47-82aa-e3351a60029d", 
+      "entity_submitter_id": "TCGA-21-1078"
+    }, 
+    {
+      "category": "History of unacceptable prior treatment related to a prior/other malignancy", 
+      "status": "Approved", 
+      "entity_id": "0ab8d063-62b4-4d47-82aa-e3351a60029d", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2014-06-16T00:00:00", 
+      "annotation_id": "f98e0a0a-ac30-5696-9e7b-1f56771af577", 
+      "notes": "unknown treatment history", 
+      "updated_datetime": "2017-03-09T12:32:35.649190-06:00", 
+      "submitter_id": "20735", 
+      "state": "submitted", 
+      "case_id": "0ab8d063-62b4-4d47-82aa-e3351a60029d", 
+      "entity_submitter_id": "TCGA-21-1078"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+},{
+  "md5sum": "c9c63cb803d628e3c3404020e582d8ea", 
+  "data_type": "Gene Expression Quantification", 
+  "file_name": "fc25b410-f91e-4607-a851-f434ff628052.htseq.counts.gz", 
+  "file_size": 257008, 
+  "data_format": "TXT", 
+  "analysis": {
+    "analysis_id": "4953bdcb-4308-45c0-95e3-2a0bc8058adb", 
+    "updated_datetime": "2017-03-04T16:37:25.871697-06:00", 
+    "created_datetime": "2016-05-30T18:56:09.586568-05:00", 
+    "submitter_id": "fc25b410-f91e-4607-a851-f434ff628052_count", 
+    "state": "live", 
+    "workflow_link": "https://github.com/NCI-GDC/htseq-cwl", 
+    "workflow_type": "HTSeq - Counts", 
+    "workflow_version": "v1", 
+    "input_files": [
+      {
+        "data_type": "Aligned Reads", 
+        "updated_datetime": "2017-03-04T16:37:26.081298-06:00", 
+        "created_datetime": "2016-05-29T13:54:19.214060-05:00", 
+        "file_name": "e6939244-0387-444f-bb19-0c95cb6a0618_gdc_realn_rehead.bam", 
+        "md5sum": "fa827010d285128fe83a185e86c6f024", 
+        "data_format": "BAM", 
+        "submitter_id": "e6939244-0387-444f-bb19-0c95cb6a0618", 
+        "access": "controlled", 
+        "platform": "Illumina", 
+        "state": "live", 
+        "file_id": "524fb6c5-a9d7-47a7-b595-8146412ced65", 
+        "data_category": "Raw Sequencing Data", 
+        "file_size": 9585081286, 
+        "file_state": "submitted", 
+        "experimental_strategy": "RNA-Seq"
+      }
+    ]
+  }, 
+  "submitter_id": "fc25b410-f91e-4607-a851-f434ff628052_count", 
+  "access": "open", 
+  "state": "live", 
+  "file_id": "2c6db074-9c5e-48c9-96c8-9eeaac118671", 
+  "data_category": "Transcriptome Profiling", 
+  "associated_entities": [
+    {
+      "entity_id": "318d06a1-77ea-4a5a-a886-d8b470713451", 
+      "case_id": "ea741488-5475-4a3d-b9fe-81722f129974", 
+      "entity_submitter_id": "TCGA-94-7557-01A-11R-2125-07", 
+      "entity_type": "aliquot"
+    }
+  ], 
+  "annotations": [
+    {
+      "category": "Prior malignancy", 
+      "status": "Approved", 
+      "entity_id": "ea741488-5475-4a3d-b9fe-81722f129974", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-10-31T00:00:00", 
+      "annotation_id": "e98ebf5a-d8ca-5e30-a1a1-9a2ef5d9c1da", 
+      "notes": "Prior malignancy prostate cancer.  No systemic chemotherapy or radiation. Patient with synchronous LUAD, mixed subtype.", 
+      "updated_datetime": "2017-03-09T11:50:55.222947-06:00", 
+      "submitter_id": "11758", 
+      "state": "submitted", 
+      "case_id": "ea741488-5475-4a3d-b9fe-81722f129974", 
+      "entity_submitter_id": "TCGA-94-7557"
+    }, 
+    {
+      "category": "Synchronous malignancy", 
+      "status": "Approved", 
+      "entity_id": "ea741488-5475-4a3d-b9fe-81722f129974", 
+      "classification": "Notification", 
+      "entity_type": "case", 
+      "created_datetime": "2012-11-10T00:00:00", 
+      "annotation_id": "55eb6cc2-9a4c-5200-bf54-cc80c70bbe5c", 
+      "notes": "Prior malignancy prostate cancer.  No systemic chemotherapy or radiation. Patient with synchronous LUAD, mixed subtype.", 
+      "updated_datetime": "2017-03-09T11:51:18.547111-06:00", 
+      "submitter_id": "11974", 
+      "state": "submitted", 
+      "case_id": "ea741488-5475-4a3d-b9fe-81722f129974", 
+      "entity_submitter_id": "TCGA-94-7557"
+    }
+  ], 
+  "experimental_strategy": "RNA-Seq"
+}]

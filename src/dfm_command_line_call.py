@@ -7,11 +7,17 @@ ROOT = os.path.join(WORKING_DIR, '..')
 TASKLIB = os.path.join(ROOT, 'src/')
 INPUT_FILE_DIRECTORIES = os.path.join(ROOT, 'data/')
 
+# command_line = "python "+TASKLIB+"download_from_manifest.py"\
+#                 + " -m " + INPUT_FILE_DIRECTORIES+"gdc_minifest_20171221_005438.txt"\
+#                 + " -n " + INPUT_FILE_DIRECTORIES+"metadata.cart.2017-12-21T21_41_22.870798.json"\
+#                 + " -g True " + "-c True " + "-t False " + "-o demo"
+#                 # + " -d"
+
+# Debugging on 2018-05-17
 command_line = "python "+TASKLIB+"download_from_manifest.py"\
-                + " -m " + INPUT_FILE_DIRECTORIES+"gdc_manifest_20171221_005438.txt"\
-                + " -n " + INPUT_FILE_DIRECTORIES+"metadata.cart.2017-12-21T21_41_22.870798.json"\
+                + " -m " + INPUT_FILE_DIRECTORIES+"Ted_gdc_manifest_20180517_192005.txt"\
+                + " -n " + INPUT_FILE_DIRECTORIES+"Ted_gdc_manifest_20180517_192005.json"\
                 + " -g True " + "-c True " + "-t False " + "-o demo"
-                # + " -d"
 
 print("About to call the module using the command line:", command_line)
 

@@ -102,3 +102,8 @@ ENV/
 
 #OSX
 .DS_Store
+scratchpad
+src/demo.cls
+src/demo.gct
+src/demo_sampleinfo.txt
+.idea/
