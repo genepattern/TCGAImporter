@@ -77,7 +77,7 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                     shutil.rmtree(destination)
                 os.mkdir(destination)
                 # Move the downloaded files to a folder
-                source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
+                source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq')
                 shutil.move(source, destination)
                 # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
                 # print(f)
