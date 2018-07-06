@@ -53,6 +53,9 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
     # name = 'TCGA_' + dataset_name + '.txt'
     file = open(name, 'w')
     file.write('File\tClass\tSample_Name\n')
+    ignored_files = []
+    ignored_twice = []
+    ignored_flag = False
     for f in manifest_df['filename']:
 
         # TODO: add a filter here for the types of samples we want. I am using all "0x"and "1x" samples...
@@ -71,19 +74,33 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 print('\tIgnoring file named "{}" because sample is neither Primary Tumor nor Matched Normal tissue '
                       '(i.e., sample id = {}).'.format(name_id_dict[f], name_id_dict[f][13:15]))
                 # Move from raw_count_files to unused_files
-                pwd = execute('pwd', doitlive=False, verbose=False)
-                destination = os.path.join(pwd, 'unused_files')
-                if os.path.isdir(destination):
-                    shutil.rmtree(destination)
-                os.mkdir(destination)
-                # Move the downloaded files to a folder
-                source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq')
-                shutil.move(source, destination)
-                # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
-                # print(f)
-                # print(name_id_dict[f]+'.htseq.counts')
+                if name_id_dict[f] not in ignored_files:
+                    ignored_flag = True
+                    ignored_files.append(name_id_dict[f])  #keeping a list of the files which have been deleted prevent double deletion.
+                    pwd = execute('pwd', doitlive=False, verbose=False)
+                    destination = os.path.join(pwd, 'unused_files')
+                    # if os.path.isdir(destination):
+                    #     shutil.rmtree(destination)
+                    if not os.path.isdir(destination):
+                        os.mkdir(destination)
+                    # Move the downloaded files to a folder
+                    source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
+                    print("source", source)
+                    print("destination", destination)
+                    shutil.move(source, destination)
+                    # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
+                    # print(f)
+                    # print(name_id_dict[f]+'.htseq.counts')
+                else:
+                    print("This sample has been removed already only one sample with the same ID is allowed. "
+                          "Consider setting 'long IDs' to 'True'"
+                          "[as of 2018-07-06 this feature is yet to be implemented]")
+                    ignored_twice.append(name_id_dict[f])
     file.close()
 
+    if ignored_flag:
+        print("The following files were ignored due to having the same ID as other sample:")
+        print(ignored_twice)
     return
 
 

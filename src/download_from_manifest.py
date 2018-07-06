@@ -52,6 +52,11 @@ else:
         command = pwd + "/gdc-client download -m " + manifest  # This is for calling the gcd file locally
         print("About to execute the command:", command)
         what = execute(command)
+    except FileNotFoundError:  # except FileNotFoundError:
+        print("Global version of gdc-client not found, trying local version.")
+        command = pwd + "/gdc-client download -m " + manifest  # This is for calling the gcd file locally
+        print("About to execute the command:", command)
+        what = execute(command)
     print('All files in manifest were downloaded, probably. To be sure, check the output of the gdc-client.')
 
 dfest = pd.read_table(manifest)

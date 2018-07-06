@@ -15,8 +15,8 @@ INPUT_FILE_DIRECTORIES = os.path.join(ROOT, 'data/')
 
 # Debugging on 2018-05-17
 command_line = "python "+TASKLIB+"download_from_manifest.py"\
-                + " -m " + INPUT_FILE_DIRECTORIES+"Ted_gdc_manifest_20180517_192005.txt"\
-                + " -n " + INPUT_FILE_DIRECTORIES+"Ted_gdc_manifest_20180517_192005.json"\
+                + " -m " + INPUT_FILE_DIRECTORIES+"LIHC_MANIFEST.txt"\
+                + " -n " + INPUT_FILE_DIRECTORIES+"LIHC_METADATA.json"\
                 + " -g True " + "-c True " + "-t False " + "-o demo"
 
 print("About to call the module using the command line:", command_line)
