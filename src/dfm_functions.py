@@ -66,6 +66,16 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 file.write('\t'.join([name_id_dict[f]+'.htseq', 'Tumor', name_id_dict[f]]))
                 file.write('\n')
                 # print(name_id_dict[f])
+            elif name_id_dict[f][13:15] == '03':
+                print('\tNot ignoring file named "{}" because sample is tagged as'
+                      ' "Primary Blood Derived Cancer - Peripheral Blood"'
+                      '(i.e., sample id = {}), this is usually expected for LAML.'
+                      .format(name_id_dict[f], name_id_dict[f][13:15]))
+                # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
+                file.write('\t'.join([name_id_dict[f]+'.htseq', 'Tumor', name_id_dict[f]]))
+                file.write('\n')
+
+                # print(name_id_dict[f])
             elif name_id_dict[f][13:15] == '11':
                 file.write('\t'.join([name_id_dict[f]+'.htseq', 'Normal', name_id_dict[f]]))
                 file.write('\n')
