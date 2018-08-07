@@ -67,7 +67,7 @@ p4_type=java.lang.String
 p4_value=True\=True;False\=False
 p5_MODE=
 p5_TYPE=TEXT
-p5_default_value=False
+p5_default_value=True
 p5_description=Whether or not to translate ENSEMBL IDs (e.g., ENSG00000012048) to Hugo Gene Symbol (e.g., BRCA1)
 p5_fileFormat=
 p5_flag=-t
@@ -94,4 +94,4 @@ quality=production
 taskDoc=doc.html
 taskType=Data Format Conversion
 userid=edjuaro
-version=Fixed a bug where all of the LAML samples were filtered out.
+version=Fixed a bug where all of the LAML samples were filtered out, improved performance of gene translation.
