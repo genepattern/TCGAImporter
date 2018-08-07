@@ -7,6 +7,7 @@ import gzip
 import json
 import sys
 import mygene
+import pickle
 
 
 def uncompress_gzip(file_name, new_name=None, delete=True):
@@ -232,15 +233,21 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
 
         f.close()
 
+
 mg = mygene.MyGeneInfo()
+with open('TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+    ENSEMBL2HUGO = pickle.load(handle)
 
 
 def translate(ESNG):
     try:
-        ID = mg.getgene(ESNG)['symbol']
-    except TypeError:
-        ID = ESNG
-    return ID
+        hugo_id = ENSEMBL2HUGO[ESNG]
+    except KeyError:
+        try:
+            hugo_id = mg.getgene(ESNG)['symbol']
+        except TypeError:
+            hugo_id = ESNG
+    return hugo_id
 
 class_dict = {
     '01': 'Tumor',
