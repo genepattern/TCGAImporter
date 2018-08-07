@@ -235,8 +235,20 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
 
 
 mg = mygene.MyGeneInfo()
-with open('TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
-    ENSEMBL2HUGO = pickle.load(handle)
+try:
+    with open('TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+        ENSEMBL2HUGO = pickle.load(handle)
+except FileNotFoundError:
+    try:
+        print("Local version of dictionary not found, trying to explicitly add the PWD")
+        pwd = os.path.dirname(os.path.realpath(__file__))
+        print(pwd)
+        with open(pwd+'/TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+            ENSEMBL2HUGO = pickle.load(handle)
+    except FileNotFoundError:
+        print("Local version of dictionary not found again, trying the docker container version")
+        with open('/usr/local/bin/TCGAImporter/TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+            ENSEMBL2HUGO = pickle.load(handle)
 
 
 def translate(ESNG):
