@@ -7,7 +7,7 @@
     <antcall target="prezip"/>
     <zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
         <fileset dir="." includes="manifest, doc.html"/>
-        <zipfileset dir="src" includes="*.py"/>
+        <zipfileset dir="src" includes="*.py, TCGA_ENSEMBL2HUGO_dictionary.p"/>
     </zip>
     <antcall target="postzip"/>
 </target>

@@ -7,6 +7,7 @@ import gzip
 import json
 import sys
 import mygene
+import pickle
 
 
 def uncompress_gzip(file_name, new_name=None, delete=True):
@@ -53,6 +54,9 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
     # name = 'TCGA_' + dataset_name + '.txt'
     file = open(name, 'w')
     file.write('File\tClass\tSample_Name\n')
+    ignored_files = []
+    ignored_twice = []
+    ignored_flag = False
     for f in manifest_df['filename']:
 
         # TODO: add a filter here for the types of samples we want. I am using all "0x"and "1x" samples...
@@ -63,6 +67,16 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 file.write('\t'.join([name_id_dict[f]+'.htseq', 'Tumor', name_id_dict[f]]))
                 file.write('\n')
                 # print(name_id_dict[f])
+            elif name_id_dict[f][13:15] == '03':
+                print('\tNot ignoring file named "{}" because sample is tagged as'
+                      ' "Primary Blood Derived Cancer - Peripheral Blood"'
+                      '(i.e., sample id = {}), this is usually expected for LAML.'
+                      .format(name_id_dict[f], name_id_dict[f][13:15]))
+                # file.write('\t'.join([name_id_dict[f]+'.htseq',class_dict[name_id_dict[f][17:19]] ,name_id_dict[f]]))
+                file.write('\t'.join([name_id_dict[f]+'.htseq', 'Tumor', name_id_dict[f]]))
+                file.write('\n')
+
+                # print(name_id_dict[f])
             elif name_id_dict[f][13:15] == '11':
                 file.write('\t'.join([name_id_dict[f]+'.htseq', 'Normal', name_id_dict[f]]))
                 file.write('\n')
@@ -71,19 +85,33 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                 print('\tIgnoring file named "{}" because sample is neither Primary Tumor nor Matched Normal tissue '
                       '(i.e., sample id = {}).'.format(name_id_dict[f], name_id_dict[f][13:15]))
                 # Move from raw_count_files to unused_files
-                pwd = execute('pwd', doitlive=False, verbose=False)
-                destination = os.path.join(pwd, 'unused_files')
-                if os.path.isdir(destination):
-                    shutil.rmtree(destination)
-                os.mkdir(destination)
-                # Move the downloaded files to a folder
-                source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
-                shutil.move(source, destination)
-                # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
-                # print(f)
-                # print(name_id_dict[f]+'.htseq.counts')
+                if name_id_dict[f] not in ignored_files:
+                    ignored_flag = True
+                    ignored_files.append(name_id_dict[f])  #keeping a list of the files which have been deleted prevent double deletion.
+                    pwd = execute('pwd', doitlive=False, verbose=False)
+                    destination = os.path.join(pwd, 'unused_files')
+                    # if os.path.isdir(destination):
+                    #     shutil.rmtree(destination)
+                    if not os.path.isdir(destination):
+                        os.mkdir(destination)
+                    # Move the downloaded files to a folder
+                    source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
+                    print("source", source)
+                    print("destination", destination)
+                    shutil.move(source, destination)
+                    # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
+                    # print(f)
+                    # print(name_id_dict[f]+'.htseq.counts')
+                else:
+                    print("This sample has been removed already only one sample with the same ID is allowed. "
+                          "Consider setting 'long IDs' to 'True'"
+                          "[as of 2018-07-06 this feature is yet to be implemented]")
+                    ignored_twice.append(name_id_dict[f])
     file.close()
 
+    if ignored_flag:
+        print("The following files were ignored due to having the same ID as other sample:")
+        print(ignored_twice)
     return
 
 
@@ -205,15 +233,33 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
 
         f.close()
 
+
 mg = mygene.MyGeneInfo()
+try:
+    with open('TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+        ENSEMBL2HUGO = pickle.load(handle)
+except FileNotFoundError:
+    try:
+        print("Local version of dictionary not found, trying to explicitly add the PWD")
+        pwd = os.path.dirname(os.path.realpath(__file__))
+        print(pwd)
+        with open(pwd+'/TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+            ENSEMBL2HUGO = pickle.load(handle)
+    except FileNotFoundError:
+        print("Local version of dictionary not found again, trying the docker container version")
+        with open('/usr/local/bin/TCGAImporter/TCGA_ENSEMBL2HUGO_dictionary.p', 'rb') as handle:
+            ENSEMBL2HUGO = pickle.load(handle)
 
 
 def translate(ESNG):
     try:
-        ID = mg.getgene(ESNG)['symbol']
-    except TypeError:
-        ID = ESNG
-    return ID
+        hugo_id = ENSEMBL2HUGO[ESNG]
+    except KeyError:
+        try:
+            hugo_id = mg.getgene(ESNG)['symbol']
+        except TypeError:
+            hugo_id = ESNG
+    return hugo_id
 
 class_dict = {
     '01': 'Tumor',
