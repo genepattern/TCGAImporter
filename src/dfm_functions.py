@@ -51,6 +51,12 @@ def execute(comando, doitlive=False, input_to_use=None, verbose=True):
 
 
 def make_sample_information_file(name, manifest_df, name_id_dict):
+
+    # pwd = execute('pwd', doitlive=False, verbose=False)
+    # destination = os.path.join(pwd, 'unused_files')
+    # if os.path.isdir(destination):
+    #     shutil.rmtree(destination)
+
     # name = 'TCGA_' + dataset_name + '.txt'
     file = open(name, 'w')
     file.write('File\tClass\tSample_Name\n')
@@ -98,7 +104,10 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                     source = os.path.join(pwd, 'raw_count_files', name_id_dict[f]+'.htseq.counts')
                     print("source", source)
                     print("destination", destination)
+                    # try:
                     shutil.move(source, destination)
+                    # except shutil.Error:
+
                     # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
                     # print(f)
                     # print(name_id_dict[f]+'.htseq.counts')
@@ -115,11 +124,92 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
     return
 
 
+def remove_duplicate_genes(df):
+    """
+    TCGA has two duplicated genes RGS5 and POLR2J4.
+    Rather than getting them manually, we'll check for all duplicated genes.
+    """
+
+    try:
+        new_ix = df.index.droplevel(1).values
+        df.index = new_ix
+    except AttributeError:
+        print("Dataframe only has one index, that's alright.")
+    except ValueError:
+        print("Dataframe only has one index but it thinks it's multi-indexed, that's weird but alright.")
+
+    # print(df)
+    # print("")
+    # print(df.columns)
+    # print('getting first row')
+    # print(df.ix[1,:])
+    # print('getting first column')
+    # print(df.ix[:, 0].ix[:, 0])
+    # print('index')
+    # print(df.index)
+    # print(df.index.values)
+
+    s = pd.Series(df['Name'])
+    # print(s)
+    import numpy as np
+    repeated = s[s.duplicated()]
+    repeated = np.unique(repeated.values)
+
+    # print("---")
+    # print(s)
+    # print("@@@@@@@@@@")
+    # print("Repeated are")
+    # print(repeated)
+    print(f"There were {len(repeated)} repeated genes.")
+    print("Note that mygene.info's ENSEMBL ID to HUGO ID are not a 1 to 1 mapping, hence the replication.")
+    df.set_index('Name', inplace=True)
+    # print(df.head())
+    # print(df.loc['TSPAN6',:])
+    print(repeated)
+
+    for gene in repeated:
+        # if gene == 'RF00019':
+        #     # print(gene)
+        #     temp = df.loc[gene, :]
+        #     df.drop(gene, axis=0, inplace=True)
+        #     # print('before:')
+        #     # print(temp)
+        #     # print('after max:')
+        #     temp_max = temp.max(axis=0, numeric_only=True)
+        #     # print(temp_max)
+        #     # temp_max.insert(0, 'ENSEMBL ID', 'Multiple ENSEMBL IDs')
+        #     temp_max = pd.concat([pd.Series(['Multiple ENSEMBL IDs']), temp_max])
+        #     # print(temp_max)
+        #     columns = temp_max.values
+        #     # columns = columns[-1:] + columns[:-1]  # Moving the ENSEMBL IDs first
+        #     # print(columns)
+        #
+        #     df.loc[gene] = columns
+        #     # print('after collapse')
+        #     # print(df.loc[gene])
+        #     # exit(192)
+
+        # temp = df.loc[gene,:]
+        # df.drop(gene, axis=0, inplace=True)
+        # df.loc[gene] = temp.max(axis=0)
+        # if gene == 'RF00019':
+        temp = df.loc[gene,:]
+        df.drop(gene, axis=0, inplace=True)
+        temp_max = temp.max(axis=0, numeric_only=True)
+        temp_max = pd.concat([pd.Series(['Multiple ENSEMBL IDs']), temp_max])
+        df.loc[gene] = temp_max.values
+
+    return df
+
+
 def make_gct(file_list, translate_bool, file_name, cls_bool):
     """
     This function makes a GCT file by concatenating all the files present in file_list
     """
     df_gct = None
+
+    if translate_bool:
+        print('translation done with mygene.info')
 
     # get sample names
     sample_list = []
@@ -150,6 +240,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
 
                 # read in file
                 df_curr = pd.read_table(file, header=None)
+                df_curr.columns = ['ENSEMBL ID', 'Counts']
 
                 # if first file, get gene translations and ensembl ids
                 if df_gct is None:
@@ -157,9 +248,10 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
                     df_curr.drop(df_curr.columns[1, ], axis=1, inplace=True)
                     df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
 
-                    # print(df_curr[df_curr.columns[0]])
                     if translate_bool:
+                        print("Translating genes now")
                         df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
+                    df_curr.columns = ['Name']
                     df_gct = pd.concat([df_curr, df_gct], axis=1)
 
                 # otherwise just concatenate
@@ -175,6 +267,9 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
 
     # remove last 5 rows, which are not genes
     df_gct = df_gct[:-5]
+
+    # remove repeated genes
+    df_gct = remove_duplicate_genes(df_gct)
 
     # start writing gct file
     f = open(str(file_name+".gct"), "w")
@@ -201,7 +296,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
     f.write('\n')
 
     # dataframe
-    df_gct.to_csv(f, sep='\t', index=False, header=False)
+    df_gct.to_csv(f, sep='\t', index=True, header=False)
     f.close()
 
     if cls_bool:
@@ -252,6 +347,7 @@ except FileNotFoundError:
 
 
 def translate(ESNG):
+    hugo_id = ESNG
     try:
         hugo_id = ENSEMBL2HUGO[ESNG]
     except KeyError:

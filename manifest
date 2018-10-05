@@ -1,10 +1,10 @@
 #TCGAImporter
 #Tue Feb 06 20:14:16 UTC 2018
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:5.0
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:5.2
 author=Edwin F. Juarez & Andy Zhang;UCSD -- Mesirov Lab
 categories=Data Format Conversion
-commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id> -c <cls>
+commandLine=python3 <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id> -c <cls>
 job.docker.image=genepattern/docker-download-from-gdc:0.2
 cpuType=any
 description=This module imports data from TCGA by taking in a GDC manifest file, downloading the files listed on that manifest, renaming them to be human-friendly, and compiling them into a GCT file to be computer-friendly.
@@ -93,4 +93,4 @@ quality=production
 taskDoc=doc.html
 taskType=Data Format Conversion
 userid=edjuaro
-version=Updating module to use the new docker container.
+version=Bugfix: duplicated gene after translation. Also using new format in the command line on the manifest file.
