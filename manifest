@@ -1,7 +1,7 @@
 #TCGAImporter
 #Tue Feb 06 20:14:16 UTC 2018
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:5.0
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00369\:5.1
 author=Edwin F. Juarez & Andy Zhang;UCSD -- Mesirov Lab
 categories=Data Format Conversion
 commandLine=<python_3.6> <libdir>download_from_manifest.py -m <manifest> -n <metadata> -o <output_file_name> -g <gct> -t <translate_gene_id> -c <cls>
