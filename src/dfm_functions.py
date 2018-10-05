@@ -249,6 +249,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
                     df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: x.split(".")[0])
 
                     if translate_bool:
+                        print("Translating genes now")
                         df_curr[df_curr.columns[0]] = df_curr[df_curr.columns[0]].apply(lambda x: translate(x))
                     df_curr.columns = ['Name']
                     df_gct = pd.concat([df_curr, df_gct], axis=1)
@@ -295,7 +296,7 @@ def make_gct(file_list, translate_bool, file_name, cls_bool):
     f.write('\n')
 
     # dataframe
-    df_gct.to_csv(f, sep='\t', index=False, header=False)
+    df_gct.to_csv(f, sep='\t', index=True, header=False)
     f.close()
 
     if cls_bool:
@@ -346,6 +347,7 @@ except FileNotFoundError:
 
 
 def translate(ESNG):
+    hugo_id = ESNG
     try:
         hugo_id = ENSEMBL2HUGO[ESNG]
     except KeyError:
