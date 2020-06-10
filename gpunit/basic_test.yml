@@ -5,7 +5,6 @@ module: TCGAImporter
 name: "TCGAImporter - Basic test"
 params:
     manifest: "input/minifest.txt"
-    metadata: "input/metadata.json"
     output_file_name: "gp_unit_test_dataset"
 assertions:
     files:
