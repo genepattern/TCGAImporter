@@ -6,8 +6,8 @@
 <target name="create-zip" depends="init">
     <antcall target="prezip"/>
     <zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-        <fileset dir="." includes="manifest, doc.html"/>
-        <zipfileset dir="src" includes="*.py, TCGA_ENSEMBL2HUGO_dictionary.p"/>
+        <fileset dir="." includes="manifest, doc.html, Dockerfile, run_code_in_container.sh"/>
+        <zipfileset dir="src" includes="*.py, *.p, uuid2barcode_all_types.csv, gdc-client"/>
     </zip>
     <antcall target="postzip"/>
 </target>

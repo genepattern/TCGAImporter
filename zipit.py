@@ -1,5 +1,12 @@
 # 2018-10-05
 # Building a zip file for GenePattern -- ASSUMING THIS IS FOR A PRE-RELEASE
+import argparse
+
+parser = argparse.ArgumentParser()
+# ~~~~Arguments~~~~~ #
+parser.add_argument("-r", "--release", action="store_true",
+                    help="do a full release")
+args = parser.parse_args()
 
 import subprocess
 
@@ -41,12 +48,18 @@ with open('manifest', 'r') as f:
 # Get figure out the version:
 with open('release.version', 'r') as f:
     line = f.readlines()[-1].strip('\n')
-    major = int(line[-1]) - 1  # If this is a full release, we should not do the -1
+    if args.release:
+        major = int(line[-1])  # If this is a full release, we should not do the -1
+    else:
+        major = int(line[-1]) - 1  # If this is a full release, we should not do the -1
     print("Current major version is:", major)
 
 with open('prerelease.version', 'r') as f:
     line = f.readlines()[-1].strip('\n')
-    minor = int(line[-1])  # If this is a full release, this should be set to 0
+    if args.release:
+        minor = int(0) # If this is a full release, this should be set to 0
+    else:
+        minor = int(line[-1])  # If this is a full release, this should be set to 0
     print("Current minor version is:", minor)
 
 version = str(major)+'.'+str(minor)
@@ -55,11 +68,16 @@ print("Hence, the version of this zip file will be:", version)
 # Create a zip file
 files_to_zip = ["manifest",
                 "doc.html",
+                "Dockerfile",
+                "run_code_in_container.sh",
                 "src/dfm_command_line_call.py",
                 "src/dfm_functions.py",
                 "src/download_from_manifest.py",
                 "src/filter_gct.py",
-                "src/TCGA_ENSEMBL2HUGO_dictionary.p"]
+                "src/TCGA_ENSEMBL2HUGO_dictionary.p",
+                "src/gdc-client",
+                "src/uuid2barcode_all_types_dict.p",
+                "src/uuid2barcode_all_types.csv"]
 print("Addding these files to the zip:",files_to_zip)
 print("about to run this command",f'zip -j {module_name+".v"+version+".zip"} {" ".join(files_to_zip)}')
 run(f'zip -j {module_name+".v"+version+".zip"} {" ".join(files_to_zip)}')
