@@ -105,8 +105,9 @@ def make_sample_information_file(name, manifest_df, name_id_dict):
                     print("source", source)
                     print("destination", destination)
                     # try:
-                    shutil.move(source, destination)
+                    shutil.move(source, os.path.join(destination, name_id_dict[f]+'.htseq.counts'))
                     # except shutil.Error:
+                    #     shutil.move(source, destination)
 
                     # shutil.rmtree(os.path.join(pwd, 'raw_count_files'))  # Remove those files/folders from current directory
                     # print(f)
@@ -135,6 +136,8 @@ def remove_duplicate_genes(df):
         df.index = new_ix
     except AttributeError:
         print("Dataframe only has one index, that's alright.")
+    except IndexError:
+        print("Using Pandas>1.0; Dataframe only has one index, that's alright.")
     except ValueError:
         print("Dataframe only has one index but it thinks it's multi-indexed, that's weird but alright.")
 

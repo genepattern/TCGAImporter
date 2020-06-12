@@ -1,3 +1,5 @@
+#prerelease version number
+#Tue, 09 Jun 2020 20:42:02 -0400
 #updated after building 5.2
 #Fri, 05 Oct 2018 16:58:59 -0400
 #updated after building 5.1
@@ -27,4 +29,4 @@
 #prerelease version number
 #Wed, 16 May 2018 15:44:49
 #prerelease version number
-prerelease.number=3
+prerelease.number=1

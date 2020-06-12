@@ -2,13 +2,15 @@ from timeit import default_timer as timer
 beginning_of_time = timer()
 from dfm_functions import *
 import argparse
+import pandas as pd
+# print(pd.__version__)
 
 parser = argparse.ArgumentParser()
 # ~~~~Arguments~~~~~ #
 parser.add_argument("-m", "--manifest", type=str,
                     help="The relative path of the manifest used to download the data")
-parser.add_argument("-n", "--metadata", type=str,
-                    help="The relative path of the metadata file")
+# parser.add_argument("-n", "--metadata", type=str,
+#                     help="The relative path of the metadata file")
 parser.add_argument("-o", "--output_file_name", type=str,
                     help="The basename to use for output files", default='TCGA_dataset')
 parser.add_argument("-v", "--verbose", action="store_true",
@@ -34,7 +36,7 @@ print(args)
 # manifest = "gdc_manifest_20171221_005438.txt"
 manifest = args.manifest
 # metadata_file = "metadata.cart.2017-12-21T21_41_22.870798.json"
-metadata_file = args.metadata
+# metadata_file = args.metadata
 
 # pwd = os.path.dirname(__file__)
 pwd = execute('pwd', doitlive=True)
@@ -62,7 +64,7 @@ else:
 dfest = pd.read_table(manifest)
 
 # Parse metadata
-meta_data = json.load(open(metadata_file))
+# meta_data = json.load(open(metadata_file))
 
 # Make a dictionary to map file names to TCGA unique ID's
 #   # if we wanted to have only one sample per patient per "phenotype" we could use this:
@@ -70,15 +72,19 @@ meta_data = json.load(open(metadata_file))
 #   # But since we want a unique ID for each HTSeq file (some patient/phenotypes will have multiple vials/replicates):
 #   # meta_data[0]['cases'][0]['samples'][0]['portions'][0]['analytes'][0]['aliquots'][0]['submitter_id']
 #   # Read more hre: https://wiki.nci.nih.gov/display/TCGA/Understanding+TCGA+Biospecimen+IDs
-name_id_dict = {}
-for i in range(len(meta_data)):
-    file_name = meta_data[i]['file_name']
+# name_id_dict = {}
+# for i in range(len(meta_data)):
+    # file_name = meta_data[i]['file_name']
     # unique_id = meta_data[i]['cases'][0]['samples'][0]['portions'][0]['analytes'][0]['aliquots'][0]['submitter_id']
     # name_id_dict[file_name] = unique_id
 
     # Reading in the new metadata structure -- 2018-05-17
-    unique_id = meta_data[i]['associated_entities'][0]['entity_submitter_id']
-    name_id_dict[file_name] = unique_id[:15]
+    # unique_id = meta_data[i]['associated_entities'][0]['entity_submitter_id']
+    # name_id_dict[file_name] = unique_id[:15]
+import pickle
+name_id_dict = pickle.load(open('/usr/local/bin/TCGAImporter/uuid2barcode_all_types_dict.p','rb'))
+# print(name_id_dict)
+# name_id_dict[file_name] = unique_id[:15]
 
 
 destination = os.path.join(pwd, 'raw_count_files')
@@ -118,4 +124,4 @@ if (args.gct == 'True'):
 
 end_of_time = timer()
 spanned = end_of_time - beginning_of_time
-print(f"We are done! Wall time elapsed: {spanned} seconds")
+print(f"We are done! Wall time elapsed: {round(spanned,2)} seconds")
